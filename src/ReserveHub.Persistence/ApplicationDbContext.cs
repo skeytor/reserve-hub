@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReserveHub.Domain.Entities;
 using ReserveHub.Persistence.Abstractions;
+using SharedKernel.UnitOfWork;
 
 namespace ReserveHub.Persistence;
 
 public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
-    : DbContext(options), IAppDbContext
+    : DbContext(options), IAppDbContext, IUnitOfWork
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -14,5 +15,5 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     }
     public DbSet<User> Users { get; set; } = default!;
     public DbSet<Reservation> Reservations { get; set; } = default!;
-    public DbSet<Space> CommunitySpaces { get; set; } = default!;
+    public DbSet<Space> Spaces { get; set; } = default!;
 }

@@ -7,5 +7,5 @@ public interface IAppDbContext
 {
     DbSet<User> Users { get; }
     DbSet<Reservation> Reservations { get; }
-    DbSet<Space> CommunitySpaces { get; }
+    DbSet<Space> Spaces { get; }
 }

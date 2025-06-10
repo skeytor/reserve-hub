@@ -4,7 +4,7 @@ namespace ReserveHub.Domain.Repositories;
 
 public interface IReservationRepository
 {
-    Task<Guid> InsertAsync(Reservation reservation);
+    Task<Reservation> InsertAsync(Reservation reservation);
     Task<Reservation?> GetByIdAsync(Guid id);
     Task<IReadOnlyList<Reservation>> GetAllAsync();
     Task<bool> IsSpaceAvailableAsync(Guid spaceId, DateTime startTime, DateTime endTime);
