@@ -1,0 +1,24 @@
+services:
+  reservehub.api:
+    image: ${DOCKER_REGISTRY-}reservehubapi
+    build:
+      context: .
+      dockerfile: src/ReserveHub.API/Dockerfile
+    container_name: reservehub.api
+    depends_on:
+      - reservehub.database
+    restart: unless-stopped
+
+  reservehub.database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=P@ssword123
+    volumes:
+      - reservehub_data:/var/opt/mssql
+    ports:
+      - "1433:1433"
+    container_name: reservehub.database
+
+volumes:
+  reservehub_data:
