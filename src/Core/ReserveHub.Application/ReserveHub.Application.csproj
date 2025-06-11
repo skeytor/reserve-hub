@@ -15,4 +15,8 @@
     <ProjectReference Include="..\ReserveHub.Domain\ReserveHub.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Auth\" />
+  </ItemGroup>
+
 </Project>

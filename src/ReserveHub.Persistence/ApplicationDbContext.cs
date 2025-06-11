@@ -13,7 +13,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
-    public DbSet<User> Users { get; set; } = default!;
-    public DbSet<Reservation> Reservations { get; set; } = default!;
-    public DbSet<Space> Spaces { get; set; } = default!;
+    public DbSet<User> Users { get; } = default!;
+    public DbSet<Reservation> Reservations { get; } = default!;
+    public DbSet<Space> Spaces { get; } = default!;
 }

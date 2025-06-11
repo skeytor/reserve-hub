@@ -1,4 +1,5 @@
-﻿using ReserveHub.Application.Handlers;
+﻿using ReserveHub.Application.Extensions;
+using ReserveHub.Application.Handlers;
 using ReserveHub.Domain.Entities;
 using ReserveHub.Domain.Repositories;
 using SharedKernel.Results;
@@ -16,15 +17,7 @@ internal sealed class CreateUserCommandHandler(IUserRepository userRepository)
                 "", 
                 $"Email {request.User.Email} already exists. Please use a different email."));
         }
-        User user = new()
-        {
-            FirstName = request.User.FirstName,
-            LastName = request.User.LastName,
-            Email = request.User.Email,
-            PasswordHash = request.User.Password, // In a real application, ensure to hash the password
-            IsActive = true,
-            IsAdministrator = false
-        };
+        User user = request.User.ToEntity();
         await userRepository.InsertAsync(user);
         return user.Id;
     }

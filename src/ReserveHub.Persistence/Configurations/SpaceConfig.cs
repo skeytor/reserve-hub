@@ -11,13 +11,15 @@ internal sealed class SpaceConfig : IEntityTypeConfiguration<Space>
     {
         builder.ToTable(TableNames.CommunitySpaces);
         builder.HasIndex(x => x.Id);
+
         builder.Property(x => x.Name)
             .IsRequired()
             .HasMaxLength(100);
+        
         builder.Property(x => x.Description)
-            .HasMaxLength(500);
+            .HasMaxLength(200);
+
         builder.Property(x => x.IsActive)
-            .IsRequired()
-            .HasDefaultValue(true);
+            .IsRequired();
     }
 }

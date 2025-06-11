@@ -1,4 +1,5 @@
-﻿using ReserveHub.Application.Handlers;
+﻿using ReserveHub.Application.Extensions;
+using ReserveHub.Application.Handlers;
 using ReserveHub.Domain.Entities;
 using ReserveHub.Domain.Repositories;
 using SharedKernel.Results;
@@ -12,17 +13,15 @@ internal sealed class CreateReservationCommandHandler(IReservationRepository res
     {
         if (request.Reservation.StartTime >= request.Reservation.EndTime)
         {
-            return Result.Failure<Guid>(
-                Error.Failure("", "Start time must be before end time."));
+            return Result.Failure<Guid>(ReservationErrors.DateOutOfRange);
         }
-
-        if ( !await reservationRepository.IsSpaceAvailableAsync(
+        bool isSpaceAvailable = await reservationRepository.IsSpaceAvailableAsync(
             request.Reservation.SpaceId, 
             request.Reservation.StartTime, 
-            request.Reservation.EndTime))
+            request.Reservation.EndTime);
+        if (!isSpaceAvailable)
         {
-            return Result.Failure<Guid>(
-                Error.Failure("", "The space is not available for the selected time."));
+            return Result.Failure<Guid>(ReservationErrors.SpaceNotAvailable);
         }
         Reservation reservation = new()
         {
