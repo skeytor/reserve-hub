@@ -3,7 +3,6 @@
 namespace ReserveHub.Application.UseCases.Reservations.Create;
 
 public sealed record CreateReservationRequest(
-    [Required] Guid UserId, 
     [Required] int SpaceId, 
     [Required] DateTime StartTime, 
     [Required] DateTime EndTime,
