@@ -31,5 +31,5 @@ public static class DependencyInjection
     private static IServiceCollection AddDatabaseProvider(
         this IServiceCollection services,
         IConfiguration configuration) =>
-        services.AddSqlServer<ApplicationDbContext>(configuration.GetConnectionString(""));
+        services.AddSqlServer<ApplicationDbContext>(configuration.GetConnectionString("Database"));
 }

@@ -7,7 +7,7 @@ public class Reservation : BaseEntity<Guid>
 {
     public Guid UserId { get; set; } = default!;
     public User User { get; set; } = default!;
-    public Guid SpaceId { get; set; } = default!;
+    public int SpaceId { get; set; }
     public Space Space { get; set; } = default!;
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }

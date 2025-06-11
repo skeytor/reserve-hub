@@ -4,7 +4,7 @@ using ReserveHub.Domain.Repositories;
 
 namespace ReserveHub.Persistence.Repositories;
 
-internal abstract class SpaceRepository(ApplicationDbContext context) 
+internal class SpaceRepository(ApplicationDbContext context) 
     : BaseRepository(context), ISpaceRepository
 {
     public Task<bool> ExistByNameAsync(string name)
@@ -21,7 +21,7 @@ internal abstract class SpaceRepository(ApplicationDbContext context)
             .AsNoTracking()
             .ToListAsync();
 
-    public async Task<Space?> GetByIdAsync(Guid id) => await Context.Spaces.FindAsync(id);
+    public async Task<Space?> GetByIdAsync(int id) => await Context.Spaces.FindAsync(id);
 
     public async Task<Space> InsertAsync(Space space)
     {
