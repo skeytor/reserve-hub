@@ -7,6 +7,14 @@ namespace ReserveHub.Persistence.Repositories;
 internal abstract class SpaceRepository(ApplicationDbContext context) 
     : BaseRepository(context), ISpaceRepository
 {
+    public Task<bool> ExistByNameAsync(string name)
+    {
+        return Context
+            .Spaces
+            .AsNoTracking()
+            .AnyAsync(space => space.Name == name);
+    }
+
     public async Task<IReadOnlyList<Space>> GetAllAsync() 
         => await Context
             .Spaces

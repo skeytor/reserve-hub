@@ -38,8 +38,7 @@ internal sealed class ReservationRepository(ApplicationDbContext context)
     public Task<bool> IsSpaceAvailableAsync(Guid spaceId, DateTime startTime, DateTime endTime) 
         => Context
         .Reservations
-        .Where(r => r.SpaceId == spaceId && 
-                    r.StartTime < endTime &&
-                    r.EndTime > startTime)
-        .AnyAsync();
+        .AnyAsync(r => r.SpaceId == spaceId &&
+                       r.StartTime < endTime &&
+                       r.EndTime > startTime);
 }
