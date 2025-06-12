@@ -29,6 +29,7 @@ internal sealed class CreateReservationCommandHandler(
             return Result.Failure<Guid>(ReservationErrors.SpaceNotAvailable);
         }
         Reservation reservation = request.Reservation.ToEntity();
+        reservation.UserId = request.UserId;
         await reservationRepository.InsertAsync(reservation);
         await unit.SaveChangesAsync(default);
         return reservation.Id;
