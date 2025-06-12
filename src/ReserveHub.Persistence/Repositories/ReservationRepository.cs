@@ -40,8 +40,8 @@ internal sealed class ReservationRepository(ApplicationDbContext context)
         return reservation;
     }
 
-    public Task<bool> IsSpaceAvailableAsync(int spaceId, DateTime startTime, DateTime endTime) 
-        => Context
+    public async Task<bool> IsSpaceAvailableAsync(int spaceId, DateTime startTime, DateTime endTime) 
+        => !await Context
         .Reservations
         .AnyAsync(r => r.SpaceId == spaceId &&
                        r.StartTime < endTime &&
