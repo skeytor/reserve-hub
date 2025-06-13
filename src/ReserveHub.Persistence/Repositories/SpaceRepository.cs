@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReserveHub.Domain.Entities;
+using ReserveHub.Domain.Enums;
 using ReserveHub.Domain.Repositories;
 using ReserveHub.Persistence.Specifications;
 using SharedKernel;
@@ -15,25 +16,15 @@ internal class SpaceRepository(ApplicationDbContext context)
             .CountAsync();
 
     public Task<bool> ExistByNameAsync(string name) 
-        => Context
-            .Spaces
+        => Context.Spaces
             .AsNoTracking()
             .AnyAsync(space => space.Name == name);
 
-    public async Task<IReadOnlyList<Space>> GetAllAsync(PaginationParams queryParams) 
-        => await SpecificationEvaluator
-        .GetQuery(Context.Spaces.AsQueryable(), new GetAllSpacesSpec(queryParams))
-        .AsNoTracking()
-        .ToListAsync();
-
-    public async Task<IReadOnlyList<Space>> GetAvailableSpacesAsync(
-        DateTime startDate,
-        DateTime endDate,
-        PaginationParams queryParam) 
-        => await SpecificationEvaluator
-            .GetQuery(Context.Spaces.AsQueryable(), new GetAvailableSpacesSpec(startDate, endDate, queryParam))
-            .AsNoTracking()
-            .ToListAsync();
+    public async Task<IReadOnlyList<Space>> GetAvailableSpacesAsync(PaginationParams pagination)
+        => await ApplySpecification(new GetAvailableSpacesSpec(pagination))
+                .Where(s => !s.Reservations.Any())
+                .AsNoTracking()
+                .ToListAsync();
 
     public async Task<Space?> GetByIdAsync(int id) => await Context.Spaces.FindAsync(id);
 

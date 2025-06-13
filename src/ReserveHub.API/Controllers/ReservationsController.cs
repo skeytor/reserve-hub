@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ReserveHub.API.Extensions;
+using ReserveHub.Application.Services;
 using ReserveHub.Application.UseCases.Reservations.Create;
+using ReserveHub.Application.UseCases.Reservations.GetAll;
+using SharedKernel;
 
 namespace ReserveHub.API.Controllers;
 
@@ -23,4 +26,18 @@ public class ReservationsController(ISender sender) : ControllerBase
             ? TypedResults.Ok(result.Value)
             : TypedResults.BadRequest(result.ToProblemDetails());
     }
+
+    [HttpGet]
+    [ProducesResponseType<PagedList<ReservationResponse>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<BadRequest<ValidationProblemDetails>>(StatusCodes.Status400BadRequest)]
+    public async Task<Results<Ok<PagedList<ReservationResponse>>, BadRequest<ValidationProblemDetails>>> GetAll(
+        [FromQuery] PaginationParams paginationParams)
+    {
+        var command = new GetReservationsQuery(paginationParams);
+        var result = await sender.Send(command);
+        return result.IsSuccess
+            ? TypedResults.Ok(result.Value)
+            : TypedResults.BadRequest(result.ToProblemDetails());
+    }
+
 }

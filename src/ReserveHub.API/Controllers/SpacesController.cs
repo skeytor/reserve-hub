@@ -30,11 +30,9 @@ public class SpacesController(ISender sender) : ControllerBase
     [ProducesResponseType<PagedList<SpaceResponse>>(StatusCodes.Status200OK)]
     [ProducesResponseType<BadRequest<ValidationProblemDetails>>(StatusCodes.Status400BadRequest)]
     public async Task<Results<Ok<PagedList<SpaceResponse>>, BadRequest<ValidationProblemDetails>>> GetAvailableSpaces(
-        [FromQuery] PaginationParams paginationParams,
-        [FromQuery] DateTime startDate,
-        [FromQuery] DateTime endDate)
+        [FromQuery] PaginationParams paginationParams)
     {
-        var query = new GetAvailableSpacesQuery(paginationParams, startDate, endDate);
+        var query = new GetAvailableSpacesQuery(paginationParams);
         var result = await sender.Send(query);
         return result.IsSuccess
             ? TypedResults.Ok(result.Value)

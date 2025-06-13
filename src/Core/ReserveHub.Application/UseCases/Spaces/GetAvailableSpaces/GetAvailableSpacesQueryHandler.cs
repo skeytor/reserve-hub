@@ -7,17 +7,14 @@ using SharedKernel.Results;
 
 namespace ReserveHub.Application.UseCases.Spaces.GetAvailableSpaces;
 
-internal class GetAvailableSpacesQueryHandler(ISpaceRepository spaceRepository) 
+internal sealed class GetAvailableSpacesQueryHandler(ISpaceRepository spaceRepository) 
     : IQueryHandler<GetAvailableSpacesQuery, PagedList<SpaceResponse>>
 {
     public async Task<Result<PagedList<SpaceResponse>>> Handle(
         GetAvailableSpacesQuery request, 
         CancellationToken cancellationToken)
     {
-        var spaces = await spaceRepository.GetAvailableSpacesAsync(
-            request.StartDate,
-            request.EndDate,
-            request.Pagination);
+        var spaces = await spaceRepository.GetAvailableSpacesAsync(request.Pagination);
         
         int totalCount = await spaceRepository.CountAsync();
 
@@ -28,7 +25,10 @@ internal class GetAvailableSpacesQueryHandler(ISpaceRepository spaceRepository)
             totalCount);
     }
 }
-public sealed record GetAvailableSpacesQuery(PaginationParams Pagination, DateTime StartDate, DateTime EndDate) 
+public sealed record GetAvailableSpacesQuery(PaginationParams Pagination) 
     : IQuery<PagedList<SpaceResponse>>;
 
-public sealed record SpaceResponse(int Id, string Name, string Description, bool IsAvailable);
+public sealed record SpaceResponse(
+    int Id, 
+    string Name, 
+    string Description);

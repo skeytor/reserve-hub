@@ -5,13 +5,9 @@ namespace ReserveHub.Domain.Repositories;
 
 public interface ISpaceRepository
 {
-    Task<Space> InsertAsync(Space communitySpace);
+    Task<Space> InsertAsync(Space space);
     Task<Space?> GetByIdAsync(int id);
     Task<bool> ExistByNameAsync(string name);
-    Task<IReadOnlyList<Space>> GetAllAsync(PaginationParams pagination);
-    Task<IReadOnlyList<Space>> GetAvailableSpacesAsync(
-        DateTime starDate, 
-        DateTime endDate, 
-        PaginationParams pagination);
+    Task<IReadOnlyList<Space>> GetAvailableSpacesAsync(PaginationParams pagination);
     Task<int> CountAsync();
 }

@@ -1,38 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReserveHub.Domain.Entities;
 using ReserveHub.Domain.Repositories;
+using ReserveHub.Persistence.Specifications;
+using SharedKernel;
 
 namespace ReserveHub.Persistence.Repositories;
 
-internal sealed class ReservationRepository(ApplicationDbContext context) 
+internal sealed class ReservationRepository(ApplicationDbContext context)
     : BaseRepository(context), IReservationRepository
 {
-    public Task<IReadOnlyList<Reservation>> GetAllAsync()
+    public Task<int> CountAsync()
+        => Context.Reservations
+            .AsNoTracking()
+            .CountAsync();
+
+    public async Task<IReadOnlyList<Reservation>> GetAllAsync(PaginationParams pagination)
     {
-        throw new NotImplementedException();
+        return await ApplySpecification(new GetReservationsWitSpacesSpec(pagination))
+           .AsNoTracking()
+           .ToListAsync();
     }
 
-    public async Task<Reservation?> GetByIdAsync(Guid id) 
+    public async Task<Reservation?> GetByIdAsync(Guid id)
         => await Context.Reservations.FindAsync(id);
-
-    public async Task<IReadOnlyList<Reservation>> GetBySpaceIdAsync(int spaceId) 
-        => await Context
-            .Reservations
-            .Where(x => x.SpaceId == spaceId)
-            .AsNoTracking()
-            .ToListAsync();
-
-    public Task<IReadOnlyList<Reservation>> GetBySpaceIdAsync(Guid spaceId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<IReadOnlyList<Reservation>> GetByUserIdAsync(Guid userId) 
-        => await Context
-            .Reservations
-            .Where(x => x.UserId == userId)
-            .AsNoTracking()
-            .ToListAsync();
 
     public async Task<Reservation> InsertAsync(Reservation reservation)
     {
@@ -40,7 +30,7 @@ internal sealed class ReservationRepository(ApplicationDbContext context)
         return reservation;
     }
 
-    public async Task<bool> IsSpaceAvailableAsync(int spaceId, DateTime startTime, DateTime endTime) 
+    public async Task<bool> IsSpaceAvailableAsync(int spaceId, DateTime startTime, DateTime endTime)
         => !await Context
         .Reservations
         .AnyAsync(r => r.SpaceId == spaceId &&
