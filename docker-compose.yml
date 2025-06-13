@@ -21,7 +21,7 @@ services:
     container_name: reservehub.database
 
   reservehub.papercut:
-    image: changemakerstudios/papercut-smpt:latest
+    image: changemakerstudiosus/papercut-smtp:latest
     container_name: reservehub.papercut
     ports:
       - 8080:80

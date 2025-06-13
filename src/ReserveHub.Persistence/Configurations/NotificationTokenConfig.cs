@@ -10,10 +10,6 @@ internal sealed class NotificationTokenConfig : IEntityTypeConfiguration<Notific
     public void Configure(EntityTypeBuilder<NotificationToken> builder)
     {
         builder.ToTable(TableNames.Notifications);
-        builder.HasOne(e => e.User)
-            .WithMany()
-            .HasForeignKey(e => e.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Reservation)
             .WithMany()

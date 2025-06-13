@@ -29,6 +29,7 @@ public class SpacesController(ISender sender) : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     [ProducesResponseType<PagedList<SpaceResponse>>(StatusCodes.Status200OK)]
     [ProducesResponseType<BadRequest<ValidationProblemDetails>>(StatusCodes.Status400BadRequest)]
     public async Task<Results<Ok<PagedList<SpaceResponse>>, BadRequest<ValidationProblemDetails>>> GetAvailableSpaces(

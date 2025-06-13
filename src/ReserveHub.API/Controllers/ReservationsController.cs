@@ -23,10 +23,10 @@ public class ReservationsController(ISender sender) : ControllerBase
     public async Task<Results<Ok<Guid>, BadRequest<ValidationProblemDetails>, UnauthorizedHttpResult>> MakeReservation(
         [FromBody] CreateReservationRequest request)
     {
-        if (!Guid.TryParse(User.FindFirstValue(JwtRegisteredClaimNames.Sub), out Guid userId) is false)
+        if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
         {
             return TypedResults.Unauthorized();
-        }   
+        }
         var command = new CreateReservationCommand(request, userId);
         var result = await sender.Send(command);
         return result.IsSuccess

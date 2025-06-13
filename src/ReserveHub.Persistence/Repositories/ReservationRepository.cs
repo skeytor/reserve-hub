@@ -30,6 +30,12 @@ internal sealed class ReservationRepository(ApplicationDbContext context)
         return reservation;
     }
 
+    public async Task<NotificationToken> InsertNotificationAsync(NotificationToken notificationToken)
+    {
+        await Context.NotificationTokens.AddAsync(notificationToken);
+        return notificationToken;
+    }
+
     public async Task<bool> IsSpaceAvailableAsync(int spaceId, DateTime startTime, DateTime endTime)
         => !await Context
         .Reservations
