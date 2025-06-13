@@ -9,8 +9,7 @@ internal static class SpaceExtensions
         => new(
             source.Id,
             source.Name,
-            source.Description,
-            source.IsActive);
+            source.Description);
     internal static IReadOnlyList<SpaceResponse> ToResponse(this IReadOnlyList<Space> source)
         => [.. source.Select(ToResponse)];
 }

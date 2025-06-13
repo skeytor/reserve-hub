@@ -3,7 +3,7 @@
 namespace SharedKernel;
 
 public sealed record PaginationParams(
-    string? SearchTerm,
+    string? Q,
     string? SortColumn,
     SortOrder SortOrder,
     int Page = 1,

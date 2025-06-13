@@ -18,7 +18,11 @@ internal sealed class CreateReservationCommandHandler(
         {
             return Result.Failure<Guid>(ReservationErrors.DateOutOfRange);
         }
-        
+        int totalHours = (int)(request.Reservation.EndTime - request.Reservation.StartTime).TotalHours;
+        if (totalHours < 1 || totalHours > 72)
+        {
+            return Result.Failure<Guid>(ReservationErrors.InvalidDuration);
+        }
         bool isSpaceAvailable = await reservationRepository.IsSpaceAvailableAsync(
             request.Reservation.SpaceId, 
             request.Reservation.StartTime, 
