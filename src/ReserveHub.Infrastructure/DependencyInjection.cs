@@ -19,6 +19,14 @@ public static class DependencyInjection
             .AddJwtBearer();
         return services;
     }
+    private static IServiceCollection AddEmailService(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddFluentEmail(configuration["Email:SenderEmail"], configuration["Email:Sender"])
+            .AddSmtpSender(configuration["Email:Host"], configuration.GetValue<int>("Email:Port"));
+        return services;
+    }
     private static IServiceCollection AddProviders(this IServiceCollection services)
     {
         services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();

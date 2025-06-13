@@ -20,5 +20,12 @@ services:
       - "1433:1433"
     container_name: reservehub.database
 
+  reservehub.papercut:
+    image: changemakerstudios/papercut-smpt:latest
+    container_name: reservehub.papercut
+    ports:
+      - 8080:80
+      - 25:25
+
 volumes:
   reservehub_data:

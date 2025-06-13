@@ -1,5 +1,6 @@
 ﻿using ReserveHub.Application.Extensions;
 using ReserveHub.Application.Handlers;
+using ReserveHub.Application.Messaging;
 using ReserveHub.Domain.Entities;
 using ReserveHub.Domain.Repositories;
 using SharedKernel.Results;
@@ -9,6 +10,7 @@ namespace ReserveHub.Application.UseCases.Reservations.Create;
 
 internal sealed class CreateReservationCommandHandler(
     IReservationRepository reservationRepository,
+    IEmailService emailService,
     IUnitOfWork unit) 
     : ICommandHandler<CreateReservationCommand, Guid>
 {
@@ -36,6 +38,10 @@ internal sealed class CreateReservationCommandHandler(
         reservation.UserId = request.UserId;
         await reservationRepository.InsertAsync(reservation);
         await unit.SaveChangesAsync(default);
+        await emailService.SendEmail(
+            reservation.User.Email, 
+            "Reservation Pending", 
+            $"To verify your reservation for space {reservation.Space.Name} from {reservation.StartTime} to {reservation.EndTime} click here");
         return reservation.Id;
     }
 }

@@ -30,7 +30,7 @@ internal class GetAvailableSpacesSpec : Specification<Space>
         => paginationParams.SortColumn?.ToLower() switch
         {
             "name" => x => x.Name,
-            "is_available" => x => x.IsActive,
+            "is_available" => x => x.IsAvailable,
             _ => x => x.Id,
         };
 }
