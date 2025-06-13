@@ -13,10 +13,12 @@ public sealed class JwtTokenProvider(IOptions<TokenOptions> options) : IJwtToken
     private readonly TokenOptions options = options.Value;
     public string GenerateToken(User user)
     {
+        string role = user.IsAdministrator ? "Admin" : "User";
         Claim[] claims =
 [
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email),
+            new("role", role),
         ];
 
         SigningCredentials signingCredentials = new(

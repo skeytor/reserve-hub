@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ReserveHub.API.Extensions;
@@ -9,6 +10,7 @@ using SharedKernel;
 
 namespace ReserveHub.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class SpacesController(ISender sender) : ControllerBase
