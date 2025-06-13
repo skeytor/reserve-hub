@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ReserveHub.API.Extensions;
 using ReserveHub.Application.Services;
+using ReserveHub.Application.UseCases.Reservations.ConfirmReservation;
 using ReserveHub.Application.UseCases.Reservations.Create;
 using ReserveHub.Application.UseCases.Reservations.GetAll;
 using SharedKernel;
@@ -23,11 +24,12 @@ public class ReservationsController(ISender sender) : ControllerBase
     public async Task<Results<Ok<Guid>, BadRequest<ValidationProblemDetails>, UnauthorizedHttpResult>> MakeReservation(
         [FromBody] CreateReservationRequest request)
     {
-        if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
-        {
-            return TypedResults.Unauthorized();
-        }
-        var command = new CreateReservationCommand(request, userId);
+        //if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+        //{
+        //    return TypedResults.Unauthorized();
+        //}
+        Guid id = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var command = new CreateReservationCommand(request, id);
         var result = await sender.Send(command);
         return result.IsSuccess
             ? TypedResults.Ok(result.Value)
@@ -46,6 +48,15 @@ public class ReservationsController(ISender sender) : ControllerBase
         return result.IsSuccess
             ? TypedResults.Ok(result.Value)
             : TypedResults.BadRequest(result.ToProblemDetails());
+    }
+
+    [HttpGet("confirm", Name = nameof(ConfirmReservation))]
+    [AllowAnonymous]
+    public async Task<IActionResult> ConfirmReservation([FromQuery] Guid token)
+    {
+        var command = new ConfirmReservationCommand(token);
+        var result = await sender.Send(command);
+        return result.IsSuccess ? Ok("Reservation confirmed successfully") : BadRequest("Token Expired");
     }
 
 }

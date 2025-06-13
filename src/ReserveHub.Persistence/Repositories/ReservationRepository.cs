@@ -14,6 +14,9 @@ internal sealed class ReservationRepository(ApplicationDbContext context)
             .AsNoTracking()
             .CountAsync();
 
+    public void DeleteTokenNotification(NotificationToken token) 
+        => Context.NotificationTokens.Remove(token);
+
     public async Task<IReadOnlyList<Reservation>> GetAllAsync(PaginationParams pagination)
     {
         return await ApplySpecification(new GetReservationsWitSpacesSpec(pagination))
@@ -23,6 +26,11 @@ internal sealed class ReservationRepository(ApplicationDbContext context)
 
     public async Task<Reservation?> GetByIdAsync(Guid id)
         => await Context.Reservations.FindAsync(id);
+
+    public Task<NotificationToken?> GetTokenNotificationAsync(Guid tokenId) 
+        => Context.NotificationTokens
+            .Include(x => x.Reservation)
+            .FirstOrDefaultAsync(x => x.Id == tokenId);
 
     public async Task<Reservation> InsertAsync(Reservation reservation)
     {

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ReserveHub.Domain.Entities;
 using ReserveHub.Domain.Repositories;
 using ReserveHub.Persistence.Abstractions;
 using ReserveHub.Persistence.Repositories;
+using ReserveHub.Persistence.SampleData;
 using SharedKernel.UnitOfWork;
 
 namespace ReserveHub.Persistence;
@@ -31,5 +33,12 @@ public static class DependencyInjection
     private static IServiceCollection AddDatabaseProvider(
         this IServiceCollection services,
         IConfiguration configuration) =>
-        services.AddSqlServer<ApplicationDbContext>(configuration.GetConnectionString("Database"));
+        services.AddSqlServer<ApplicationDbContext>(configuration.GetConnectionString("Database"),
+            optionsAction: options =>
+                options.UseSeeding((context, _) =>
+                {
+                    context.Set<User>().AddRange(SeedData.Users);
+                    context.Set<Space>().AddRange(SeedData.Spaces);
+                    context.SaveChanges();
+                }));
 }

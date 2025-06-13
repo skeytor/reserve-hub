@@ -13,6 +13,7 @@ internal sealed class CreateReservationCommandHandler(
     IReservationRepository reservationRepository,
     IUserRepository userRepository,
     IEmailService emailService,
+    IConfirmReservationLinkFactory linkGenerator,
     IUnitOfWork unit) 
     : ICommandHandler<CreateReservationCommand, Guid>
 {
@@ -58,7 +59,7 @@ internal sealed class CreateReservationCommandHandler(
         await reservationRepository.InsertNotificationAsync(notification);
         await unit.SaveChangesAsync(default);
 
-        string link = $"https://reservehub.com/verify/{notification.Id}";
+        string link = linkGenerator.Generate(notification);
 
         await emailService.SendEmail(
             user.Email, 

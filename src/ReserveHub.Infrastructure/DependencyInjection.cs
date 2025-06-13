@@ -14,6 +14,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddProviders();
+        services.AddAuthorization();
         services
             .Configure<TokenOptions>(configuration.GetSection("Jwt"))
             .ConfigureOptions<JwtBearerConfigureOptions>()
@@ -29,6 +30,8 @@ public static class DependencyInjection
         services.AddFluentEmail(configuration["Email:SenderEmail"], configuration["Email:Sender"])
             .AddSmtpSender(configuration["Email:Host"], configuration.GetValue<int>("Email:Port"));
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IConfirmReservationLinkFactory, ConfirmReservationLinkFactory>();
+
         return services;
     }
     private static IServiceCollection AddProviders(this IServiceCollection services)
