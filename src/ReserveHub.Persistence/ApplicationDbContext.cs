@@ -16,4 +16,5 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<User> Users { get; set; } = default!;
     public DbSet<Reservation> Reservations { get; set; } = default!;
     public DbSet<Space> Spaces { get; set; } = default!;
+    public DbSet<NotificationToken> NotificationTokens { get; set; } = default!;
 }

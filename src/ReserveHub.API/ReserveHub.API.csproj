@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\ReserveHub.Application\ReserveHub.Application.csproj" />
+    <ProjectReference Include="..\ReserveHub.Infrastructure\ReserveHub.Infrastructure.csproj" />
     <ProjectReference Include="..\ReserveHub.Persistence\ReserveHub.Persistence.csproj" />
   </ItemGroup>
 

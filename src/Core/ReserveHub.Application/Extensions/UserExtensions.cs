@@ -12,7 +12,6 @@ internal static class UserExtensions
             Email = source.Email,
             FirstName = source.FirstName,
             LastName = source.LastName,
-            PasswordHash = source.Password,
             IsActive = true,
             IsAdministrator = false
         };

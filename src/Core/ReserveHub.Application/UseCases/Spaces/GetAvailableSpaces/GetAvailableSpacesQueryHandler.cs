@@ -14,7 +14,10 @@ internal sealed class GetAvailableSpacesQueryHandler(ISpaceRepository spaceRepos
         GetAvailableSpacesQuery request, 
         CancellationToken cancellationToken)
     {
-        var spaces = await spaceRepository.GetAvailableSpacesAsync(request.Pagination);
+        var spaces = await spaceRepository.GetAvailableSpacesAsync(
+            request.Pagination,
+            request.StartDate,
+            request.EndDate);
         
         int totalCount = await spaceRepository.CountAsync();
 
@@ -25,7 +28,7 @@ internal sealed class GetAvailableSpacesQueryHandler(ISpaceRepository spaceRepos
             totalCount);
     }
 }
-public sealed record GetAvailableSpacesQuery(PaginationParams Pagination) 
+public sealed record GetAvailableSpacesQuery(PaginationParams Pagination, DateTime StartDate, DateTime EndDate) 
     : IQuery<PagedList<SpaceResponse>>;
 
 public sealed record SpaceResponse(

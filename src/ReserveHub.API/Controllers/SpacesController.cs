@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ReserveHub.API.Extensions;
@@ -9,6 +10,7 @@ using SharedKernel;
 
 namespace ReserveHub.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class SpacesController(ISender sender) : ControllerBase
@@ -27,12 +29,15 @@ public class SpacesController(ISender sender) : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     [ProducesResponseType<PagedList<SpaceResponse>>(StatusCodes.Status200OK)]
     [ProducesResponseType<BadRequest<ValidationProblemDetails>>(StatusCodes.Status400BadRequest)]
     public async Task<Results<Ok<PagedList<SpaceResponse>>, BadRequest<ValidationProblemDetails>>> GetAvailableSpaces(
-        [FromQuery] PaginationParams paginationParams)
+        [FromQuery] PaginationParams paginationParams,
+        [FromQuery] DateTime startDate,
+        [FromQuery] DateTime endDate)
     {
-        var query = new GetAvailableSpacesQuery(paginationParams);
+        var query = new GetAvailableSpacesQuery(paginationParams, startDate, endDate);
         var result = await sender.Send(query);
         return result.IsSuccess
             ? TypedResults.Ok(result.Value)

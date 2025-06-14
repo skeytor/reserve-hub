@@ -19,7 +19,7 @@ internal sealed class SpaceConfig : IEntityTypeConfiguration<Space>
         builder.Property(x => x.Description)
             .HasMaxLength(200);
 
-        builder.Property(x => x.IsActive)
+        builder.Property(x => x.IsAvailable)
             .IsRequired();
     }
 }

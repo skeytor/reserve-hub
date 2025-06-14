@@ -8,4 +8,5 @@ public interface IAppDbContext
     DbSet<User> Users { get; }
     DbSet<Reservation> Reservations { get; }
     DbSet<Space> Spaces { get; }
+    DbSet<NotificationToken> NotificationTokens { get; }
 }

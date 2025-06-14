@@ -15,6 +15,7 @@ WORKDIR /app
 COPY ["src/ReserveHub.API/ReserveHub.API.csproj", "ReserveHub.API/"]
 COPY ["src/SharedKernel/SharedKernel.csproj", "SharedKernel/"]
 COPY ["src/ReserveHub.Persistence/ReserveHub.Persistence.csproj", "ReserveHub.Persistence/"]
+COPY ["src/ReserveHub.Infrastructure/ReserveHub.Infrastructure.csproj", "ReserveHub.Infrastructure/"]
 COPY ["src/Core/ReserveHub.Application/ReserveHub.Application.csproj", "ReserveHub.Application/"]
 COPY ["src/Core/ReserveHub.Domain/ReserveHub.Domain.csproj", "ReserveHub.API/"]
 RUN dotnet restore "./src/ReserveHub.API/ReserveHub.API.csproj"

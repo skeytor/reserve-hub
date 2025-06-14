@@ -1,5 +1,6 @@
 using ReserveHub.API.Extensions;
 using ReserveHub.Application;
+using ReserveHub.Infrastructure;
 using ReserveHub.Persistence;
 using Scalar.AspNetCore;
 
@@ -13,7 +14,10 @@ builder.Services.AddOpenApi();
 
 builder.Services
     .AddApplicationServices()
-    .AddPersistence(builder.Configuration);
+    .AddPersistence(builder.Configuration)
+    .AddAuthenticationProvider(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -28,6 +32,10 @@ if (app.Environment.IsDevelopment())
 //app.MapUserEndpoints();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

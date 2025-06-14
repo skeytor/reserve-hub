@@ -1,5 +1,4 @@
 ﻿using ReserveHub.Domain.Entities;
-using ReserveHub.Domain.Enums;
 using ReserveHub.Domain.Specifications;
 using SharedKernel;
 using System.Linq.Expressions;
@@ -8,8 +7,8 @@ namespace ReserveHub.Persistence.Specifications;
 
 internal class GetAvailableSpacesSpec : Specification<Space>
 {
-    internal GetAvailableSpacesSpec(PaginationParams paginationParams)
-        //: base(s => !s.Reservations.Any(x => x.Status == ReservationStatus.Completed))
+    internal GetAvailableSpacesSpec(PaginationParams paginationParams, DateTime startDate, DateTime endDate)
+        : base(x => !x.Reservations.Any(r => r.StartTime < endDate && r.EndTime > startDate))
     {
         AddPagination(paginationParams.Page, paginationParams.PageSize);
         if (!string.IsNullOrWhiteSpace(paginationParams.Q))
@@ -30,7 +29,7 @@ internal class GetAvailableSpacesSpec : Specification<Space>
         => paginationParams.SortColumn?.ToLower() switch
         {
             "name" => x => x.Name,
-            "is_available" => x => x.IsActive,
+            "is_available" => x => x.IsAvailable,
             _ => x => x.Id,
         };
 }

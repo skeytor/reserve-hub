@@ -20,9 +20,11 @@ internal class SpaceRepository(ApplicationDbContext context)
             .AsNoTracking()
             .AnyAsync(space => space.Name == name);
 
-    public async Task<IReadOnlyList<Space>> GetAvailableSpacesAsync(PaginationParams pagination)
-        => await ApplySpecification(new GetAvailableSpacesSpec(pagination))
-                .Where(s => !s.Reservations.Any())
+    public async Task<IReadOnlyList<Space>> GetAvailableSpacesAsync(
+        PaginationParams pagination,
+        DateTime startDate,
+        DateTime endDate)
+        => await ApplySpecification(new GetAvailableSpacesSpec(pagination, startDate, endDate))
                 .AsNoTracking()
                 .ToListAsync();
 
