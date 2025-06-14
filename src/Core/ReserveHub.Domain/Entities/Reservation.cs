@@ -14,5 +14,4 @@ public class Reservation : BaseEntity<Guid>
     public DateTime RegisterDate { get; set; } = DateTime.UtcNow;
     public ReservationStatus Status { get; set; } = ReservationStatus.Pending;
     public string Notes { get; set; } = string.Empty;
-    //public ICollection<NotificationToken> Notifications { get; set; } = [];
 }

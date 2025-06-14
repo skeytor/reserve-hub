@@ -25,6 +25,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReserveHub.Infrastructure", "src\ReserveHub.Infrastructure\ReserveHub.Infrastructure.csproj", "{27C7EAF7-54DC-4140-9E51-07A251456D56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReserveHub.UnitTests", "tests\ReserveHub.UnitTests\ReserveHub.UnitTests.csproj", "{5FCE0982-8370-4758-BEE2-FEFDF35D6720}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{27C7EAF7-54DC-4140-9E51-07A251456D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27C7EAF7-54DC-4140-9E51-07A251456D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27C7EAF7-54DC-4140-9E51-07A251456D56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FCE0982-8370-4758-BEE2-FEFDF35D6720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FCE0982-8370-4758-BEE2-FEFDF35D6720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FCE0982-8370-4758-BEE2-FEFDF35D6720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FCE0982-8370-4758-BEE2-FEFDF35D6720}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{B723A5D7-0E04-4115-AB46-697644B184D8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{66D8C91E-6C31-430A-9EF3-698853DF6476} = {B723A5D7-0E04-4115-AB46-697644B184D8}
 		{27C7EAF7-54DC-4140-9E51-07A251456D56} = {B723A5D7-0E04-4115-AB46-697644B184D8}
+		{5FCE0982-8370-4758-BEE2-FEFDF35D6720} = {0E6DF147-F095-436A-B526-825C4392B5DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B028454-3B66-41B4-B5DF-EEF578EEFE85}

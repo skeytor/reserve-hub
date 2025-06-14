@@ -15,5 +15,7 @@
     <ProjectReference Include="..\..\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\ReserveHub.Domain\ReserveHub.Domain.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<InternalsVisibleTo Include="ReserveHub.UnitTests" />
+	</ItemGroup>
 </Project>
